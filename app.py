@@ -24,10 +24,10 @@ def emotion():
     print("Emotion")
     # npimg = np.fromstring(request.files['file'].read(), np.uint8)
     npimg = np.frombuffer(request.files['file'].read(), np.uint8)
-    data = json.loads(request.form['json'])
-    landmark = data['landmark']
-    print("get landmark")
-    print(landmark)
+    # data = json.loads(request.form['json'])
+    # landmark = data['landmark']
+    # print("get landmark")
+    # print(landmark)
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     cv2.imwrite("saved.jpg", img)
     print(img.shape)
