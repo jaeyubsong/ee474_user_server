@@ -5,6 +5,7 @@ from config import *
 import numpy as np
 import cv2
 import json
+import argparse
 
 app = Flask(__name__)
 
@@ -28,6 +29,7 @@ def emotion():
     print("get landmark")
     print(landmark)
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    cv2.imwrite("saved.jpg", img)
     print(img.shape)
     ##############################
     emotion = get_emotion(img, None)
@@ -39,4 +41,7 @@ def emotion():
     return response
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=7007)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-p", "--port", required=False, type=int, default=7007, help="Write your desired port number")
+    args = vars(ap.parse_args())
+    app.run(host='0.0.0.0', port=args['port'])
