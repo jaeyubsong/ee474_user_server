@@ -47,7 +47,7 @@ def get_datagen(dataset, num, aug=False):
             batch_size=num)
 
 model = load_model("./models/cnn.h5")
-NUM_FRAME = 10
+NUM_FRAME = 30
 frame_list = []
 
 def get_emotion(img, statistics = False):
