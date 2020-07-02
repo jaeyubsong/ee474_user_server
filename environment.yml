@@ -1,4 +1,4 @@
-name: ee474_server
+name: ee474_user_server
 channels:
 - anaconda
 - conda-forge
@@ -101,5 +101,5 @@ dependencies:
 - libopencv=3.4.2=hb342d67_1
 - opencv=3.4.2=py27h6fd60c2_1
 - py-opencv=3.4.2=py27hb342d67_1
-prefix: /mnt/home/20160819/.conda/envs/ee474_server
+prefix: /mnt/home/20160819/.conda/envs/ee474_user_server
 
