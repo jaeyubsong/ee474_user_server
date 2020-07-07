@@ -53,8 +53,8 @@ frame_list = []
 def get_emotion(img, statistics = False):
     global frame_list
     frame_list.append(img)
-    #emotions = ['unsatisfied', 'astonished', 'joyful', 'sadness', 'neutral']
-    emotions = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+    emotions = ['astonished', 'unsatisfied', 'joyful', 'sadness', 'neutral']
+
     if len(frame_list) < NUM_FRAME:
         return NEUTRAL, NEUTRAL
 
@@ -72,44 +72,33 @@ def get_emotion(img, statistics = False):
         frame_list = frame_list[1:NUM_FRAME]
 
         if statistics:
-            results = np.array([0, 0, 0, 0, 0, 0, 0], dtype=np.float32)
+            results = np.array([0, 0, 0, 0, 0], dtype=np.float32)
 
             for out in outcomes:
                 results[out] += 1
 
             results = np.divide(results, NUM_FRAME)
             results = np.multiply(results, 100)
-            stat = {"unsatisfied": results[0]+results[1],
-                    "astonished": results[2]+results[5],
-                    "joyful": results[3],
-                    "sadness": results[4],
-                    "neutral": results[6]}
+            stat = {"astonished": results[0],
+                    "unsatisfied": results[1],
+                    "joyful": results[2],
+                    "sadness": results[3],
+                    "neutral": results[4]}
             return stat
 
         summed = np.divide(summed, NUM_FRAME)
-        stat = {"unsatisfied": summed[0]+summed[1],
-                    "astonished": summed[2]+summed[5],
-                    "joyful": summed[3],
-                    "sadness": summed[4],
-                    "neutral": summed[6]}
+        stat = {"astonished": summed[0],
+                    "unsatisfied": summed[1],
+                    "joyful": summed[2],
+                    "sadness": summed[3],
+                    "neutral": summed[4]}
 
         m = max(summed)
         index = [i for i, j in enumerate(summed) if j == m]
 
         frequent = emotions[index[0]]
 
-        if frequent == 'angry' or frequent == 'disgust':
-            frequent =  UNSATISFIED
-        elif frequent == 'fear'  or frequent == 'surprise':
-            frequent =  ASTONISHED
-        elif frequent == 'sad':
-            frequent =  SAD
-        elif frequent == 'happy':
-            frequent =  JOYFUL
-        else:
-            frequent = NEUTRAL
-
-        results = np.array([0, 0, 0, 0, 0, 0, 0])
+        results = np.array([0, 0, 0, 0, 0])
         for out in ychats:
             m = max(out)
             if m > 0.85:
@@ -120,19 +109,8 @@ def get_emotion(img, statistics = False):
         if m != 0 :
             index = [i for i, j in enumerate(results) if j == m]
             likely = emotions[index[0]]
-                
-            if likely == 'angry' or likely == 'disgust':
-                likely =  UNSATISFIED
-            elif likely == 'fear'  or likely == 'surprise':
-                likely =  ASTONISHED
-            elif likely == 'sad':
-                likely =  SAD
-            elif likely == 'happy':
-                likely =  JOYFUL
-            else:
-                likely = NEUTRAL
         else:
-            likely = NEUTRAL
+            likely = emotions[4]
 
         return frequent, likely
 
